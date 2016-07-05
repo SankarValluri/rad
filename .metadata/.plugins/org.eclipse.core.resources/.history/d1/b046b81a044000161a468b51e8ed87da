@@ -1,0 +1,21 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+<%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
+
+<div class="welcome">
+	<div>
+		Amazon API Prototype
+	</div>
+	<s:form id="amazonSearchForm" action="amazonAction_execute">
+	<div class="search">
+		<s:textfield key="keyword"/>
+		<!--<sj:submit id="searchItemBtn" value="Search"
+		    href="%{reloadurl}" targets="gridDiv" formIds="amazonSearchForm"/> -->
+		<s:submit key="Search" />
+	</div>
+	<div>
+		<s:include value="amazonGrid.jsp" />
+	</div>	
+	</s:form>
+</div>

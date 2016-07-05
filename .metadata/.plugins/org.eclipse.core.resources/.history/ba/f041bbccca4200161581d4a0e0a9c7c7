@@ -1,0 +1,16 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
+<div class="welcome">
+	<div class="search">
+		Web Service: RESTful: JAX-RS: Jersey
+	</div>
+	<div class="search">
+		<ul class="listStyle">
+		<s:iterator value="myList" status="name">
+			<li><s:property/></li>
+		</s:iterator>
+		</ul>
+	</div>
+</div>

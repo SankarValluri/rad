@@ -1,0 +1,17 @@
+package sam.tools.rad.rest;
+
+import javax.ws.rs.Path;
+
+@Path("/demorestservice")
+public class DemoRestService {
+
+	private static final String text = 
+	
+	
+	private String init(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("The McKinsey & Company was ranked number one consulting firm by Vault.com.");
+		sb.append("Dominic Barton, the managing director, received 99% approval rating by Glassdoor.com.");
+		
+	}
+}

@@ -1,0 +1,41 @@
+package sam.tools.rad.action;
+
+import java.util.List;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.ClientConfig;
+
+import sam.tools.rad.interfaces.SaveMenu;
+
+public class WebserviceAction extends BaseAction implements SaveMenu{
+	private static final long serialVersionUID = -2745320037433082495L;
+	private static final String URI = "http://localhost:8080/rad/rest";
+	private Names myNames;
+
+	@SuppressWarnings("unchecked")
+	public String execute(){
+		Client client = ClientBuilder.newClient(new ClientConfig().register( WebserviceAction.class ));
+		WebTarget webTarget = client.target(URI).path("demorestservice");
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		Response response = invocationBuilder.get();
+		myNames = response.readEntity(Names.class);
+		
+		return SUCCESS;
+	}
+
+	public List<Names> getMyNames() {
+		return myNames;
+	}
+
+	public void setMyNames(List<Names> myNames) {
+		this.myNames = myNames;
+	}
+
+}

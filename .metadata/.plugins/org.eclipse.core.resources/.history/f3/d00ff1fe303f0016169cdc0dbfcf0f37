@@ -1,0 +1,10 @@
+package sam.tools.rad.action;
+
+public class AmazonAction extends BaseAction {
+	private static final long serialVersionUID = -5639656320074210942L;
+
+	public String execute(){
+		
+		return SUCCESS;
+	}
+}

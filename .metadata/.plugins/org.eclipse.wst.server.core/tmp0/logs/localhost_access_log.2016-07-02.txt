@@ -1,0 +1,8 @@
+127.0.0.1 - - [02/Jul/2016:00:09:07 -0400] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:27 -0400] "GET /rad/amazonAction.action HTTP/1.1" 200 12117
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:28 -0400] "GET /rad/web/css/styles.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:28 -0400] "GET /rad/struts/themes/cupertino/jquery-ui.css?s2j=3.7.1 HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:34 -0400] "GET /rad/amazonGridJson.action?keyword=&&_search=false&nd=1467432569422&rows=20&page=1&sidx=&sord=asc&_=1467432568856 HTTP/1.1" 200 32
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:41 -0400] "POST /rad/amazonAction.action HTTP/1.1" 200 12129
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:41 -0400] "GET /rad/struts/themes/cupertino/jquery-ui.css?s2j=3.7.1 HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [02/Jul/2016:00:09:49 -0400] "GET /rad/amazonGridJson.action?keyword=xbox&&_search=false&nd=1467432582231&rows=20&page=1&sidx=&sord=asc&_=1467432581883 HTTP/1.1" 200 36

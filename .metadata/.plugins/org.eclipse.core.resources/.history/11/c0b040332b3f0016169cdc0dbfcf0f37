@@ -1,0 +1,19 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
+<p class="welcome">
+    <img src="web/images/deliveringgifts.jpg"><br/>
+    <br/>
+	The holidays are supposed to be a happy time for children. Unfortunately
+	too often there are times when a child will miss out on the joy of the holidays,
+	such as being in foster care, suffering from illness, or an underprivileged
+	home. The elves at Santa's Little Helper collected the wishes of these
+	children, and you can help make their Christmas a happy one. Just select
+	a child and grant a wish!<br/>
+	<br/>
+	Your donations make a huge difference for the thousands of kids that 
+	will be helped this holiday season. <br/>
+	<br/>
+	Please select a menu item on left.
+</p>

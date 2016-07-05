@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"       
+          "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.multipart.maxSize" value="1000000" />
+
+	<package name="default" extends="struts-default, json-default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		<interceptors>
+			<interceptor-stack name="appDefaultStack">
+				<interceptor-ref name="exception">
+					<param name="exception.logEnabled">true</param>
+					<param name="exception.logLevel">ERROR</param>
+				</interceptor-ref>
+				<interceptor-ref name="parameterFilter" />
+				<interceptor-ref name="prepare" />
+				<interceptor-ref name="defaultStack">
+					<param name="exception.logEnabled">true</param>
+					<param name="exception.logLevel">ERROR</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="appDefaultStack" />
+		<global-results>
+			<result name="home" type="redirectAction">
+				<param name="actionName">welcomeAction</param>
+			</result>
+		</global-results>
+
+		<action name="welcomeAction" class="welcomeAction" method="execute">
+			<result name="input" type="tiles">welcome</result>
+			<result name="success" type="tiles">welcome</result>
+		</action>
+		<action name="loginAction_*" method="{1}" class="loginAction">
+			<result name="input" type="tiles">login</result>
+			<result name="success" type="tiles">login</result>
+		</action>
+	</package>
+</struts>

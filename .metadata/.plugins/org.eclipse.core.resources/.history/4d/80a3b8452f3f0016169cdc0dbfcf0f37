@@ -1,0 +1,32 @@
+/**
+ * Menu highlighted interceptor
+ */
+package sam.tools.rad.interceptors;
+
+import org.apache.log4j.Logger;
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.Interceptor;
+
+public class MenuInterceptor implements Interceptor{
+	private static final long serialVersionUID = 3834951977485554052L;
+	public static Logger logger = Logger.getLogger(MenuInterceptor.class);
+	
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String intercept(ActionInvocation invocation) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

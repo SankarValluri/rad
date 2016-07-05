@@ -1,0 +1,299 @@
+package sam.tools.rad.amazon;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TimeZone;
+import java.util.TreeMap;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.commons.codec.binary.Base64;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+
+/**
+ * Singleton utility to sign requests for the  Amazon Product Advertising API.
+ */
+public class AmazonUtility {
+    
+    // default values
+    private static final String UTF8_CHARSET = "UTF-8";
+    private static final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
+    private static final String REQUEST_URI = "/onca/xml";
+    private static final String REQUEST_METHOD = "GET";
+    private static final String NEW_LINE = "\n";
+    
+    // custom values
+    private static final String ENDPOINT = "webservices.amazon.com";
+    private static final String AWS_ACCESS_KEY_ID = "AKIAIBXWAQATWMDX2BFA";
+    private static final String AWS_SECRET_KEY = "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";
+    
+    // singleton reference
+    private static volatile AmazonUtility singleton;
+    
+    // instance variables
+    private Mac mac = null;
+    
+    /**
+     * Private constructor; use {@link #getInstance()} instead.
+     */
+    private AmazonUtility() {
+        try {
+            byte[] secretyKeyBytes = AWS_SECRET_KEY.getBytes(UTF8_CHARSET);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secretyKeyBytes, HMAC_SHA256_ALGORITHM);
+            mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
+            mac.init(secretKeySpec);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static AmazonUtility getInstance() {
+        if (singleton == null) {
+            synchronized(AmazonUtility.class) {
+                if (singleton == null) {
+                    singleton = new AmazonUtility();
+                }
+            }
+        }
+        return singleton;
+    }
+    
+    /**
+     * Retrieves detailed information for up to the first ten search results
+     * matching the given keyword(s).
+     * 
+     *  @param keywords The search term(s)
+     *  @return The item details; {@code null} if a result cannot be obtained
+     *          for any reason (including zero results or an exception).
+     */
+    public List<AmazonItem> getSearchResults(String keywords)  {
+        try {
+            return getAmazonItems(keywords);
+        } catch (Exception e) {
+            // we can't return results; log the error and fail gracefully
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+    /**
+     * Main content for wrapper method {@link #getItemDetails(String)}
+     */
+    private List<AmazonItem> getAmazonItems(String keywords) {
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SearchIndex", "All");
+        params.put("Keywords", keywords);
+        params.put("ResponseGroup", "Medium");
+        Document doc = getResponseDocument(params);
+        
+        List<AmazonItem> results = new ArrayList<>();
+        
+        for (int i = 1; i < 11; i++) {
+            String asin = extractValue(doc,"/ItemSearchResponse/Items/Item[" + i + " ]/ASIN");
+            if (asin == null) {
+                return results;
+            }
+
+            String title = extractValue(doc,"/ItemSearchResponse/Items/Item[" + i + "]/ItemAttributes/Title");
+            String rawPrice = extractValue(doc,"/ItemSearchResponse/Items/Item[" + i + "]/ItemAttributes/ListPrice/Amount");
+            Integer priceInCents = null;
+            if (rawPrice != null && !rawPrice.isEmpty()) {
+                try {
+                    priceInCents = Integer.parseInt(rawPrice);
+                } catch (NumberFormatException ignored) {
+               }
+            }
+
+            String formattedPrice = extractValue(doc,"/ItemSearchResponse/Items/Item[" + i + "]/ItemAttributes/ListPrice/FormattedPrice");
+            String url = extractValue(doc,"/ItemSearchResponse/Items/Item[" + i + "]/DetailPageURL");
+            String imageUrl = extractValue(doc,"/ItemSearchResponse/Items/Item[" + i + "]/SmallImage/URL");
+            AmazonItem item = new AmazonItem(asin,title,priceInCents,formattedPrice,url,imageUrl);
+
+            results.add(item);
+        }
+        
+        return results;
+    }
+    
+    /**
+     * Helper method to extract a value from a document.
+     * 
+     * @param doc The document from which to extract a value
+     * @param xpath The xpath expression to use
+     * @return the value specified by the xpath expression; {@code null} if the path doesn't match 
+     */
+    private String extractValue(Document doc, String xpath) {
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        final Node node;
+        try {
+            node = (Node) xPath.evaluate(xpath,doc.getDocumentElement(),XPathConstants.NODE);            
+        } catch (XPathExpressionException e) {
+            throw new RuntimeException(e);
+        }
+        if (node == null) {
+            return null;
+        }
+        return node.getFirstChild().getNodeValue();
+    }
+
+    /**
+     * Retrieves a Document from the given URI
+     * 
+     * @param requestUrl the URI for the Document request
+     * @return the Document retrieved from the given URI
+     */
+    private Document getResponseDocument(Map<String, String> params) {
+        // merge in the boiler-plate params 
+    	params.put("Service", "AWSECommerceService");
+    	params.put("Version", " 2013-08-01");
+        params.put("Operation", "ItemSearch");
+    	params.put("AssociateTag", "sirishankar-20");
+        params.put("AWSAccessKeyId", AWS_ACCESS_KEY_ID);
+        params.put("Timestamp", getTimestamp());
+
+        // The parameters need to be processed in lexicographical order, so we'll
+        // use a TreeMap implementation for that.
+        SortedMap<String, String> sortedParamMap = new TreeMap<String, String>(params);
+        
+        // get the canonical form the query string
+        String canonicalQS = this.canonicalize(sortedParamMap);
+        
+        // create the string upon which the signature is calculated 
+        StringBuffer toSign = new StringBuffer();
+        toSign.append(REQUEST_METHOD);
+        toSign.append(NEW_LINE);
+        toSign.append(ENDPOINT);
+        toSign.append(NEW_LINE);
+        toSign.append(REQUEST_URI);
+        toSign.append(NEW_LINE);
+        toSign.append(canonicalQS);
+        
+
+        // get the signature
+        String hmac = this.hmac(toSign.toString());
+        String sig = this.percentEncodeRfc3986(hmac);
+
+        // construct the URL
+        String requestUrl = 
+            "http://" + ENDPOINT + REQUEST_URI + "?" + canonicalQS + "&Signature=" + sig;
+
+        // retieve and parse the document
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            return db.parse(requestUrl);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Compute the HMAC.
+     *  
+     * @param stringToSign  String to compute the HMAC over.
+     * @return              base64-encoded hmac value.
+     */
+    private String hmac(String stringToSign) {
+        String signature = null;
+        byte[] data;
+        byte[] rawHmac;
+        try {
+            data = stringToSign.getBytes(UTF8_CHARSET);
+            rawHmac = mac.doFinal(data);
+            Base64 encoder = new Base64();
+            signature = new String(encoder.encode(rawHmac));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(UTF8_CHARSET + " is unsupported!", e);
+        }
+        return signature;
+    }
+
+    /**
+     * Generate a ISO-8601 format timestamp as required by Amazon.
+     *  
+     * @return  ISO-8601 format timestamp.
+     */
+    private String getTimestamp() {
+//    	LocalDateTime now = new LocalDateTime();
+//    	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+//
+//    	return dtf.print(now);
+        String timestamp = null;
+        Calendar cal = Calendar.getInstance();
+        DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dfm.setTimeZone(TimeZone.getTimeZone("GMT"));
+        timestamp = dfm.format(cal.getTime());
+        return timestamp;    	
+    }
+
+    /**
+     * Canonicalize the query string as required by Amazon.
+     * 
+     * @param sortedParamMap    Parameter name-value pairs in lexicographical order.
+     * @return                  Canonical form of query string.
+     */
+    private String canonicalize(SortedMap<String, String> sortedParamMap) {
+        if (sortedParamMap.isEmpty()) {
+            return "";
+        }
+
+        StringBuffer buffer = new StringBuffer();
+        Iterator<Map.Entry<String, String>> iter = sortedParamMap.entrySet().iterator();
+
+        while (iter.hasNext()) {
+            Map.Entry<String, String> kvpair = iter.next();
+            buffer.append(percentEncodeRfc3986(kvpair.getKey()));
+            buffer.append("=");
+            buffer.append(percentEncodeRfc3986(kvpair.getValue()));
+            if (iter.hasNext()) {
+                buffer.append("&");
+            }
+        }
+        String cannoical = buffer.toString();
+        return cannoical;
+    }
+
+    /**
+     * Percent-encode values according the RFC 3986. The built-in Java
+     * URLEncoder does not encode according to the RFC, so we make the
+     * extra replacements.
+     * 
+     * @param s decoded string
+     * @return  encoded string per RFC 3986
+     */
+    private String percentEncodeRfc3986(String s) {
+        String out;
+        try {
+            out = URLEncoder.encode(s, UTF8_CHARSET)
+                .replace("+", "%20")
+                .replace("*", "%2A")
+                .replace("%7E", "~");
+        } catch (UnsupportedEncodingException e) {
+            out = s;
+        }
+        return out;
+    }
+}

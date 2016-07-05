@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+        default-autowire="byName" xmlns:aop="http://www.springframework.org/schema/aop">	
+       <!-- 
+
+    <!-- property file -->
+    <context:annotation-config />
+    <!-- End property file -->
+    <util:list id="demoList" value-type="java.lang.String">
+		<value>The McKinsey and Company was ranked number one consulting firm by Vault.com.</value>
+		<value>Dominic Barton, the managing director, received 99% approval rating by Glassdoor.com.</value>
+    </util:list>
+    <!-- Action beans -->
+    <bean id="welcomeAction" class="sam.tools.rad.action.WelcomeAction"  scope="prototype">
+    </bean>       
+    <bean id="amazonAction" class="sam.tools.rad.action.AmazonAction"  scope="prototype">
+    </bean>  
+    <bean id="webserviceAction" class="sam.tools.rad.action.WebserviceAction"  scope="prototype">
+    </bean>
+    <bean id="metadataAction" class="sam.tools.rad.action.MetadataAction"  scope="prototype">
+    </bean>   
+    <bean id="demoRestService" class="sam.tools.rad.rest.DemoRestService" scope="prototype">
+  		<property name="demoList" ref="demoList"></property>
+    </bean>
+    
+    <!-- Interceptor -->
+    <bean id="menuInterceptor" class="sam.tools.rad.interceptors.MenuInterceptor" />
+              
+</beans>

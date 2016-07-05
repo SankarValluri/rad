@@ -1,0 +1,10 @@
+package sam.tools.rad.action;
+
+public class MetadataAction extends BaseAction {
+	private static final long serialVersionUID = 793497939242466127L;
+
+	public String execute(){
+		
+		return SUCCESS;
+	}
+}

@@ -1,0 +1,11 @@
+package sam.rad.tools.action;
+
+public class WelcomeAction extends BaseAction{
+	private static final long serialVersionUID = -2344233005446702131L;
+
+	@Override
+	public String execute(){
+		
+		return SUCCESS;
+	}
+}

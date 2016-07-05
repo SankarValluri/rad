@@ -1,0 +1,8 @@
+package sam.tools.rad.rest;
+
+import javax.ws.rs.Path;
+
+@Path("/demorestservice")
+public class DemoRestService {
+
+}

@@ -1,0 +1,283 @@
+html, body {
+    font-family:Arial, Helvetica, sans-serif;
+	height: 100%;
+	width: 100%;
+}
+A:link, a:visited {
+	text-decoration: none;
+	outline: none;
+	color:#6E6E6E ;
+	font-weight: bold;
+}
+A:hover{
+	text-decoration: underline; 
+	color: #257EB7;
+	text-decoration: none;
+}
+
+.cloak {
+    display: none;
+}
+
+
+/** Header **/
+
+#pageHeader {
+	border-bottom: 1px solid #257EB7;
+	box-sizing: border-box;
+    display: block;
+    font-size: 13px;
+    height: 55px;
+    position: relative;
+    width: 100%
+}
+
+#pageHeader .header-tree {
+    height: 80%;
+	padding-left: 2%;
+    padding-top: 3px;
+    vertical-align: top;
+}
+
+#pageHeader .header-letters {
+    height: 100%;
+    padding-top: 1px;
+}
+
+#pageHeader .header-link-wrapper {
+    height: 100%;
+	position: absolute;
+	right: calc(2% - 5px); /* 2% to match logo ) */
+}
+
+#pageHeader .header-link-wrapper-inner {
+    display: table;
+    height: 100%;
+    text-align: center;
+}
+
+#pageHeader .header-link-wrapper-inner p {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#pageHeader ,
+#pageHeader #register,
+#pageHeader #login,
+#pageHeader #logout {
+	padding-right: 5px;
+}
+
+/** Header end **/
+
+
+
+
+/** Footer **/
+
+#pageFooter {
+    background-color: #337cbb;
+    color: #ffffff;
+	display: block;
+	font-size: 13px;
+    height: 55px;
+    width: 100%;
+}
+
+#pageFooter .footer-wrapper {
+    display: table;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#pageFooter .footer-wrapper p {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#pageFooter .contact-us-link {
+    color: #ffffff;
+    text-decoration: underline;
+}
+/** Footer end **/
+
+
+
+
+/** Main Content Row **/
+#mainContent {
+    display: block;
+    height: calc(100% - 110px); /* 100% of screen minus 55px for header and 55px for footer */
+}
+/** Main Content Row end **/
+
+
+
+
+/** Navigation Menu **/
+#nav {
+    display: inline-block;
+    height: 100%;
+    overflow: auto;
+    vertical-align: top;
+    width: 220px;
+    padding-top: 20px;
+}
+
+#nav ul {
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.7;
+    padding: 0px 20px 0px 22px;
+    list-style: none outside none;        
+}
+
+#nav ul li {
+    padding-bottom: 5px;
+}
+
+.menuSectionHeader {
+    font-size: 16px;
+    font-weight:bold; 
+    padding-left: 20px;
+    padding-top: 20px;
+    display: block;
+    color: chocolate;   
+}
+
+.menuDisable{
+    opacity: 0;
+    pointer-events: none;
+}
+/** Navigation Menu end**/
+
+
+
+
+/** Main Content Panel **/
+#mainContentColumn {
+    display: inline-block;
+    font-size: 12pt;
+    height: 100%;
+    overflow: auto;
+    width: calc(100% - 220px); /** 100% of screen minus 200px for nav menu */
+}
+
+#mainContentColumn .mainPanelHeader{
+    color: #257EB7;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    padding: 10px 14px 5px 14px;
+    max-width: 776px; /* 1024 - 220(navMenu) - 28(horizontalPadding)  */  
+}
+
+#mainContentColumn .mainPanelWrapper{
+    padding: 20px;
+    max-width: 764px; /* 1024 - 220(navMenu) - 40(horizontalPadding)  */    
+}
+
+#mainContentColumn .errorMessage{
+    list-style: none outside none;  
+    color: red;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 14px;
+}
+
+#mainContentColumn .leftColumn{
+    width:150px; 
+    display:inline-block;   
+}
+#mainContentColumn .rightColumn{
+    width:80px; 
+    display:inline-block;   
+}
+#mainContentColumn .textColumn{
+    display:inline-block;
+    padding-bottom: 5px;    
+}
+
+.validation-warning {
+	color: red;
+	font-weight: bold;
+}
+
+.form-field-required .invalid,
+.form-field-required .invalid .input-field-confirm,
+.form-field-required-special .invalid {
+    border-color: red;
+}
+
+.form-field-required .leftColumn:after,
+.form-field-required-special .leftColumn:after {
+    color: red;
+    content: '*';
+    display:inline;
+}
+
+.required-helper {
+	font-size: 10px;
+}
+
+.required-helper .star {
+	color: red;
+}
+
+.button-row {
+	padding-top: 5px;
+	text-align: center;
+}
+/** Main Content Panel end **/
+
+
+
+
+/** Welcome Page **/
+p.welcome {
+	text-align: justify;
+	padding-right: 20px;
+}
+
+.welcome img {
+	margin-top: 50px;
+}
+/** Welcome Page end **/
+
+
+/** Contact Us **/
+#mainContentColumn .contactUsConfirmation,
+#mainContentColumn .donationConfirmation,
+#mainContentColumn .createAccountConfirmation {
+    display: table;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#mainContentColumn .contactUsConfirmation p,
+#mainContentColumn .donationConfirmation p,
+#mainContentColumn .createAccountConfirmation p {
+    display: table-cell;
+    vertical-align: middle;
+}
+/** Contact Us end**/
+
+
+/** current menu **/
+.menuHighlighter {
+    color: #388efb !important;
+}
+.menuCurrentColor{
+    color: #388efb;
+}
+.menuHighlighter:before {
+    content: url('../images/selectedPage_icon.png');
+    margin-left: -10px;
+    margin-right: 2px;
+}
+/** End current menu **/

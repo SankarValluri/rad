@@ -1,0 +1,17 @@
+package sam.tools.rad.action;
+
+import javax.ws.rs.client.Client;
+
+import sam.tools.rad.interfaces.SaveMenu;
+
+public class WebserviceAction extends BaseAction implements SaveMenu{
+	private static final long serialVersionUID = -2745320037433082495L;
+	
+	
+	public String execute(){
+		Client client = Client.create();
+		
+		return SUCCESS;
+	}
+
+}

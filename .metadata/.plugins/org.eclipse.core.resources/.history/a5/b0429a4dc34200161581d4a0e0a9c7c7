@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+        default-autowire="byName" xmlns:aop="http://www.springframework.org/schema/aop">	
+       <!-- 
+   	<bean id="dataSource" 
+            class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+           <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+           <property name="url" value="jdbc:mysql://localhost:3306/capstone" />
+           <property name="username" value="root" />
+           <property name="password" value="manager"></property>
+    </bean>
+
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+	    <property name="annotatedClasses">
+			<list>
+				<value>ksu.edu.capstone.model.Address</value>
+				<value>ksu.edu.capstone.model.Application</value>
+				<value>ksu.edu.capstone.model.ApplicationStatus</value>
+				<value>ksu.edu.capstone.model.ChildProfile</value>
+				<value>ksu.edu.capstone.model.ChildCondition</value>
+				<value>ksu.edu.capstone.model.Countries</value>
+				<value>ksu.edu.capstone.model.States</value>
+				<value>ksu.edu.capstone.model.Cities</value>
+				<value>ksu.edu.capstone.model.Profile</value>
+				<value>ksu.edu.capstone.model.UserProfile</value>
+				<value>ksu.edu.capstone.model.WishlistItem</value>
+				<value>ksu.edu.capstone.model.WishlistTransaction</value>
+			</list>
+	    </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
+    </bean>
+ 
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+     -->
+    <!-- property file 
+    <context:annotation-config />-->
+    <!-- End property file -->
+    <util:list id="demoList" value-type="java.lang.String">
+		<value>test1</value>
+		<value>test2</value>
+    </util:list>
+    <!-- Action beans -->
+    <bean id="welcomeAction" class="sam.tools.rad.action.WelcomeAction"  scope="prototype">
+    </bean>       
+    <bean id="amazonAction" class="sam.tools.rad.action.AmazonAction"  scope="prototype">
+    </bean>  
+    <bean id="webserviceAction" class="sam.tools.rad.action.WebserviceAction"  scope="prototype">
+    </bean>
+    <bean id="metadataAction" class="sam.tools.rad.action.MetadataAction"  scope="prototype">
+    </bean>   
+    <bean id="demoRestService" class="sam.tools.rad.rest.DemoRestService" scope="prototype">
+  		<property name="demoList" ref="demoList"></property>
+    </bean>
+    
+    <!-- Interceptor -->
+    <bean id="menuInterceptor" class="sam.tools.rad.interceptors.MenuInterceptor" />
+              
+</beans>

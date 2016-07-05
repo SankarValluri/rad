@@ -1,0 +1,37 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+<%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
+
+<div class="welcome">
+	<div>
+		Amazon API Prototype
+	</div>
+	<div id="gridDiv">
+	        <s:url var="amazonGridJson"
+	               action="amazonGridJson?search=%{search}"/>	
+	    <sjg:grid id="gridtable1" dataType="json" href="%{amazonGridJson}"
+	              gridModel="amazonItemGridList" pager="true" rownumbers="false" 
+	              rowNum= "20" viewrecords="true" loadonce="true"
+	              resizable="false" resizableHandles="false"
+	              altRows="true" altClass="altRows"
+	              caption="%{#gridCaption}" hidegrid="false" >
+	        <sjg:gridColumn name="image" index="image" sortable="false"
+	                        width="95" title="Image"
+	                        formatter="imageFormatter" />
+	        <sjg:gridColumn name="name" index="name" sortable="true"  
+	                        width="242" title="Name"/>
+	        <sjg:gridColumn name="title" index="title" sortable="true"
+	                        width="242" title="Description" />            
+	        <sjg:gridColumn name="formattedPrice" index="formattedPrice" sortable="true" 
+	                        width="95" title="Price" />  
+	        <sjg:gridColumn name="actions" index="actions" sortable="false"
+	                        width="75" title="Action"
+	                        formatter="actionFormatter1" /> 
+	        <sjg:gridColumn name="asin" index="asin" sortable="false" 
+	                        width="0" hidden="true" title="ASIN" />  
+	        <sjg:gridColumn name="priceInCents" index="priceInCents" sortable="false" 
+	                        width="0" hidden="true" title="Average" />  
+	     </sjg:grid>
+	</div>	
+</div>

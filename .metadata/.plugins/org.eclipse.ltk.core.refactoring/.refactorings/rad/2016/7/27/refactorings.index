@@ -1,0 +1,3 @@
+1467421365681	Rename type 'AmazonRequestProcessor'
+1467422092226	Rename method 'callAmazon'
+1467426294939	Encapsulate field 'amazonList'

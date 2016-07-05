@@ -1,0 +1,15 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
+<div class="welcome">	
+	<div>
+		<span>Help</span>
+		Action: welcome.action
+		JSP: welcome.jsp
+		Menu: the selection is Highlighted based on MenuInterceptor.java class.
+	</div>
+	<div>
+		Please select an option from the menu.
+	</div>
+</div>

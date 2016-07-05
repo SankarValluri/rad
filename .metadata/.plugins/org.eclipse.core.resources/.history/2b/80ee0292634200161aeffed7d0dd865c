@@ -1,0 +1,20 @@
+package sam.tools.rad.rest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.Path;
+
+@Path("/demorestservice")
+public class DemoRestService {
+
+	private static final String text = 
+	
+	
+	private List<String> init(){
+		List<String> list = new ArrayList<String>();
+		list.add("The McKinsey & Company was ranked number one consulting firm by Vault.com.");
+		list.add("Dominic Barton, the managing director, received 99% approval rating by Glassdoor.com.");
+		return list;
+	}
+}

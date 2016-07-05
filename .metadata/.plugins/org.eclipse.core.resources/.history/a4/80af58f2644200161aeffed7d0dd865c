@@ -1,0 +1,24 @@
+package sam.tools.rad.action;
+
+import sam.tools.rad.interfaces.SaveMenu;
+import sam.tools.rad.rest.DemoRestService;
+
+public class WebserviceAction extends BaseAction implements SaveMenu{
+	private static final long serialVersionUID = -2745320037433082495L;
+
+	private DemoRestService demoRestService;
+	
+	public String execute(){
+		demoRestService.getList();
+		
+		return SUCCESS;
+	}
+
+	public DemoRestService getDemoRestService() {
+		return demoRestService;
+	}
+
+	public void setDemoRestService(DemoRestService demoRestService) {
+		this.demoRestService = demoRestService;
+	}
+}

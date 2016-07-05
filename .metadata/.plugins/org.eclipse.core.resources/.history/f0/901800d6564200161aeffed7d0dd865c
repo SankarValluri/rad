@@ -1,0 +1,22 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+<%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
+
+<div>
+	<div style="padding-top:20px;">
+		Amazon Product Advertisement API Demo
+	</div>
+	<s:form id="amazonSearchForm" action="amazonAction" theme="simple">
+	<div class="search">
+		Enter Keyword to be searched: 
+		<s:textfield key="keyword"/>
+		<!--<sj:submit id="searchItemBtn" value="Search"
+		    href="%{reloadurl}" targets="gridDiv" formIds="amazonSearchForm"/> -->
+		<s:submit key="Search" />
+	</div>
+	<div>
+		<s:include value="amazonGrid.jsp" />
+	</div>	
+	</s:form>
+</div>

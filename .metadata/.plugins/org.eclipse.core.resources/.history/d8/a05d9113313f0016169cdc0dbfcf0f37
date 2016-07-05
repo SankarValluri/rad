@@ -1,0 +1,10 @@
+package sam.tools.rad.action;
+
+public class WebserviceAction extends BaseAction {
+	private static final long serialVersionUID = -2745320037433082495L;
+
+	public String execute(){
+		
+		return SUCCESS;
+	}
+}

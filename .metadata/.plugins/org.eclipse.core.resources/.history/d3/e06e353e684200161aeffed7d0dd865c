@@ -1,0 +1,21 @@
+package sam.tools.rad.action;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+
+import org.glassfish.jersey.client.ClientConfig;
+
+import sam.tools.rad.interfaces.SaveMenu;
+
+public class WebserviceAction extends BaseAction implements SaveMenu{
+	private static final long serialVersionUID = -2745320037433082495L;
+	
+	
+	public String execute(){
+		Client client = ClientBuilder.newClient(new ClientConfig().register( WebserviceAction.class ));
+
+		
+		return SUCCESS;
+	}
+
+}
